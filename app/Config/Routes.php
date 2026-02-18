@@ -49,6 +49,11 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->post('users/update/(:num)', 'Admin\Users::update/$1');
     $routes->get('users/delete/(:num)', 'Admin\Users::delete/$1');
     $routes->get('users', 'Admin\Users::index');
+
+    $routes->get('jadwal', 'Admin\Jadwal::index');                 
+    $routes->get('jadwal/create', 'Admin\Jadwal::create');         
+    $routes->post('jadwal/store', 'Admin\Jadwal::store');          
+    $routes->delete('jadwal/delete/(:num)', 'Admin\Jadwal::delete/$1');
 });
 
 
@@ -93,3 +98,5 @@ $routes->group('pendaftaran', function ($routes) {
 });
 
 $routes->get('reset-test', 'Auth::resetPasswordTest');
+$routes->get('appointment/getDoctorsByDept/(:num)', 'Pendaftaran\AppointmentController::getDoctorsByDept/$1');
+$routes->get('appointment/getSchedulesByDoctor/(:num)', 'Pendaftaran\AppointmentController::getSchedulesByDoctor/$1');

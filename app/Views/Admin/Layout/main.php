@@ -126,6 +126,9 @@
             <a href="<?= base_url('admin/users') ?>" class="<?= (uri_string() == 'admin/users') ? 'active' : '' ?>">
                 <i class="bi bi-person-gear"></i> Manajemen User
             </a>
+            <a href="<?= base_url('admin/jadwal') ?>" class="<?= (uri_string() == 'admin/jadwal') ? 'active' : '' ?>">
+                <i class="bi bi-calendar"></i> Jadwal Dokter
+            </a>
         </div>
 
         <a href="/logout" class="logout-link" id="btn-logout">
