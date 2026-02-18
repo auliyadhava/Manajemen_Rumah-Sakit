@@ -3,227 +3,181 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Booking Online - RS Sejahtera</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Online | Portal Pasien</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            /* Gunakan min-height agar tidak terpotong saat konten panjang */
-            padding: 20px 0;
+        /* Agar Date Picker bawaan browser mengikuti tema gelap */
+        input[type="date"] {
+            color-scheme: dark;
         }
 
-        .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            /* Lebarkan sedikit agar muat kartu jadwal */
+        /* Animasi Fade In */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        h2 {
-            color: #2c3e50;
-            margin-top: 0;
-            text-align: center;
-            border-bottom: 2px solid #27ae60;
-            padding-bottom: 10px;
-        }
-
-        .alert {
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .alert-error {
-            background: #fdecea;
-            color: #c0392b;
-        }
-
-        .alert-success {
-            background: #eafaf1;
-            color: #27ae60;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #34495e;
-        }
-
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #dcdfe6;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        /* --- CSS BARU UNTUK JADWAL --- */
-        .schedule-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .schedule-card {
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background-color: #fafafa;
-        }
-
-        .schedule-card:hover {
-            border-color: #27ae60;
-            background-color: #f0fff4;
-        }
-
-        .schedule-card.selected {
-            border-color: #27ae60;
-            background-color: #27ae60;
-            color: white;
-            font-weight: bold;
-        }
-
-        .schedule-card .day {
-            font-size: 0.9em;
-            text-transform: uppercase;
-        }
-
-        .schedule-card .shift {
-            font-size: 1.1em;
-            margin: 5px 0;
-            font-weight: bold;
-        }
-
-        .schedule-card .time {
-            font-size: 0.8em;
-            opacity: 0.8;
-        }
-
-        button {
-            width: 100%;
-            background-color: #27ae60;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #219150;
-        }
-
-        .btn-cancel {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            text-decoration: none;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
-        .loading {
-            font-style: italic;
-            color: #999;
-            font-size: 0.9em;
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-gray-900 text-gray-100 font-sans antialiased">
 
-    <div class="form-container">
-        <h2>🏥 Booking Online</h2>
+    <div class="min-h-screen flex flex-col">
 
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-error">
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success">
-                <?= session()->getFlashdata('success') ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="post" action="<?= base_url('pasien/booking/store') ?>">
-            <?= csrf_field() ?>
-
-            <div class="form-group">
-                <label>Tanggal Rencana Kunjungan</label>
-                <input
-                    type="date"
-                    id="appointment_date"
-                    name="schedule_date" min="<?= date('Y-m-d') ?>"
-                    required>
-                <small style="color: #666; font-size: 12px;">*Pastikan tanggal sesuai dengan hari praktek dokter</small>
+        <nav class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
+            <div class="flex items-center gap-3">
+                <a href="<?= base_url('pasien/dashboard') ?>" class="bg-gray-700 p-2 rounded-lg hover:bg-gray-600 transition group" title="Kembali ke Dashboard">
+                    <i class="fas fa-arrow-left text-white group-hover:-translate-x-1 transition-transform"></i>
+                </a>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight leading-none">Booking <span class="text-cyan-400">Online</span></h1>
+                    <p class="text-xs text-gray-400">Portal Pasien</p>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Pilih Poliklinik</label>
-                <select name="department_id" id="department" required>
-                    <option value="">-- Pilih Poli --</option>
-                    <?php foreach ($departments as $d): ?>
-                        <option value="<?= $d->department_id ?>">
-                            <?= esc($d->name) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden md:block">
+                    <p class="text-sm font-semibold text-white"><?= session()->get('full_name') ?></p>
+                    <p class="text-xs text-cyan-400">Pasien Umum</p>
+                </div>
+                <div class="h-10 w-10 rounded-full bg-gray-700 flex items-center justify-center border-2 border-cyan-500 shadow-cyan-500/20">
+                    <i class="fas fa-user text-cyan-300"></i>
+                </div>
             </div>
+        </nav>
 
-            <div class="form-group">
-                <label>Pilih Dokter</label>
-                <select name="doctor_id" id="doctor" disabled required>
-                    <option value="">-- Pilih Poli Terlebih Dahulu --</option>
-                </select>
-            </div>
+        <main class="flex-grow p-6 lg:p-8 flex items-center justify-center">
+            <div class="w-full max-w-2xl">
 
-            <div class="form-group">
-                <label>Pilih Jadwal Sif</label>
-                <div id="schedule_loading" class="loading" style="display:none;">Memuat jadwal...</div>
-                <div id="schedule_container" class="schedule-container">
-                    <p style="color:#aaa; font-size:14px; grid-column: 1/-1;">Silakan pilih dokter untuk melihat jadwal.</p>
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="mb-6 p-4 bg-red-900/20 border border-red-500/50 text-red-400 rounded-xl flex items-center gap-3 shadow-lg animate-fade-in">
+                        <i class="fas fa-exclamation-circle text-xl"></i>
+                        <div><?= session()->getFlashdata('error') ?></div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="mb-6 p-4 bg-emerald-900/20 border border-emerald-500/50 text-emerald-400 rounded-xl flex items-center gap-3 shadow-lg animate-fade-in">
+                        <i class="fas fa-check-circle text-xl"></i>
+                        <div><?= session()->getFlashdata('success') ?></div>
+                    </div>
+                <?php endif; ?>
+
+                <div class="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 overflow-hidden">
+
+                    <div class="p-6 border-b border-gray-700 bg-gray-800/80 backdrop-blur-sm">
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                            <i class="fas fa-calendar-plus text-cyan-400"></i> Buat Janji Temu
+                        </h2>
+                        <p class="text-gray-400 text-sm mt-1">Isi formulir di bawah untuk mendaftar antrian dokter.</p>
+                    </div>
+
+                    <div class="p-6 md:p-8">
+                        <form method="post" action="<?= base_url('pasien/booking/store') ?>" class="space-y-6">
+                            <?= csrf_field() ?>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Tanggal Rencana Kunjungan</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="far fa-calendar-alt text-gray-500"></i>
+                                    </div>
+                                    <input type="date"
+                                        id="appointment_date"
+                                        name="schedule_date"
+                                        min="<?= date('Y-m-d') ?>"
+                                        required
+                                        class="pl-10 w-full bg-gray-900 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block p-3 transition placeholder-gray-400">
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">*Pastikan tanggal sesuai dengan hari praktek dokter.</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Pilih Poliklinik</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-hospital text-gray-500"></i>
+                                    </div>
+                                    <select name="department_id" id="department" required
+                                        class="pl-10 w-full bg-gray-900 border border-gray-600 text-white text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block p-3 transition appearance-none">
+                                        <option value="">-- Pilih Poli --</option>
+                                        <?php foreach ($departments as $d): ?>
+                                            <option value="<?= $d->department_id ?>">
+                                                <?= esc($d->name) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+                                        <i class="fas fa-chevron-down text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Pilih Dokter</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user-md text-gray-500"></i>
+                                    </div>
+                                    <select name="doctor_id" id="doctor" disabled required
+                                        class="pl-10 w-full bg-gray-900 border border-gray-600 text-gray-400 text-sm rounded-lg focus:ring-cyan-500 focus:border-cyan-500 block p-3 transition appearance-none disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <option value="">-- Pilih Poli Terlebih Dahulu --</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400">
+                                        <i class="fas fa-chevron-down text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Pilih Jadwal Sif</label>
+
+                                <div id="schedule_loading" class="hidden text-cyan-400 text-sm italic mb-2">
+                                    <i class="fas fa-spinner fa-spin mr-2"></i> Memuat jadwal...
+                                </div>
+
+                                <div id="schedule_container" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    <div class="col-span-full text-center py-8 border-2 border-dashed border-gray-700 rounded-xl text-gray-500">
+                                        <i class="far fa-calendar-times text-2xl mb-2"></i>
+                                        <p class="text-sm">Silakan pilih dokter untuk melihat jadwal tersedia.</p>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="schedule_id" id="schedule_id" required>
+                            </div>
+
+                            <div class="pt-4 flex flex-col sm:flex-row gap-3">
+                                <button type="submit" class="w-full sm:w-2/3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-4 rounded-lg transition shadow-lg shadow-cyan-900/20 active:scale-95 flex items-center justify-center gap-2">
+                                    <i class="fas fa-paper-plane"></i> Konfirmasi Pendaftaran
+                                </button>
+                                <a href="<?= base_url('pasien/riwayat') ?>" class="w-full sm:w-1/3 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition text-center border border-gray-600">
+                                    Batal
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
 
-                <input type="hidden" name="schedule_id" id="schedule_id" required>
             </div>
-
-            <button type="submit">Konfirmasi Pendaftaran</button>
-            <a href="<?= base_url('pasien/riwayat') ?>" class="btn-cancel">
-                Batal & Kembali
-            </a>
-        </form>
+        </main>
     </div>
 
     <script>
-        // Konfigurasi Base URL (sesuaikan jika ada folder sub-project)
         const BASE_URL = "<?= base_url() ?>";
 
         const deptSelect = document.getElementById('department');
@@ -236,13 +190,14 @@
         deptSelect.addEventListener('change', function() {
             const deptId = this.value;
 
-            // Reset Dropdown Dokter & Jadwal
+            // Reset state
             docSelect.innerHTML = '<option value="">Memuat...</option>';
             docSelect.disabled = true;
+            docSelect.classList.add('text-gray-400');
+            docSelect.classList.remove('text-white');
             resetSchedule();
 
             if (deptId) {
-                // Panggil Controller getDoctorsByDept
                 fetch(`${BASE_URL}/appointment/getDoctorsByDept/${deptId}`)
                     .then(response => response.json())
                     .then(data => {
@@ -252,6 +207,8 @@
                         });
                         docSelect.innerHTML = options;
                         docSelect.disabled = false;
+                        docSelect.classList.remove('text-gray-400');
+                        docSelect.classList.add('text-white');
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -268,41 +225,62 @@
             resetSchedule();
 
             if (docId) {
-                loadingText.style.display = 'block';
-                schedContainer.innerHTML = '';
+                loadingText.classList.remove('hidden');
+                schedContainer.innerHTML = ''; // Clear placeholder
 
-                // Panggil Controller getSchedulesByDoctor
                 fetch(`${BASE_URL}/appointment/getSchedulesByDoctor/${docId}`)
                     .then(response => response.json())
                     .then(data => {
-                        loadingText.style.display = 'none';
+                        loadingText.classList.add('hidden');
 
                         if (data.length === 0) {
-                            schedContainer.innerHTML = '<p style="color:#e74c3c; grid-column: 1/-1;">Dokter ini belum memiliki jadwal aktif.</p>';
+                            schedContainer.innerHTML = `
+                            <div class="col-span-full text-center py-4 bg-red-900/20 border border-red-500/30 rounded-lg text-red-400 text-sm">
+                                <i class="fas fa-times-circle mr-1"></i> Dokter ini belum memiliki jadwal aktif.
+                            </div>`;
                             return;
                         }
 
                         // Render Kartu Jadwal
                         data.forEach(sch => {
-                            // Potong detik (08:00:00 -> 08:00)
                             let start = sch.start_time.substring(0, 5);
                             let end = sch.end_time.substring(0, 5);
 
+                            // Buat Element Kartu dengan Tailwind classes
                             const card = document.createElement('div');
-                            card.className = 'schedule-card';
-                            card.innerHTML = `
-                        <div class="day">${sch.day}</div>
-                        <div class="shift">${sch.shift}</div>
-                        <div class="time"><i class="far fa-clock"></i> ${start}-${end}</div>
-                    `;
+                            // Base classes
+                            card.className = 'schedule-card cursor-pointer p-3 rounded-xl border border-gray-600 bg-gray-700 hover:border-cyan-400 hover:bg-gray-600 transition-all text-center group relative';
 
-                            // Event Klik Kartu
+                            card.innerHTML = `
+                            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 group-hover:text-cyan-300 transition-colors">${sch.day}</div>
+                            <div class="text-lg font-bold text-white mb-1">${sch.shift}</div>
+                            <div class="text-xs text-gray-400 bg-gray-800/50 py-1 px-2 rounded-lg inline-block group-hover:bg-gray-900/50">
+                                <i class="far fa-clock mr-1"></i> ${start}-${end}
+                            </div>
+                            
+                            <div class="check-icon hidden absolute top-2 right-2 text-cyan-400">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        `;
+
+                            // Event Klik
                             card.addEventListener('click', function() {
-                                // Hapus selected dari kartu lain
-                                document.querySelectorAll('.schedule-card').forEach(c => c.classList.remove('selected'));
-                                // Tambah selected ke kartu ini
-                                this.classList.add('selected');
-                                // Simpan ke input hidden
+                                // 1. Reset semua kartu lain
+                                document.querySelectorAll('.schedule-card').forEach(c => {
+                                    // Hapus style 'selected'
+                                    c.classList.remove('border-cyan-500', 'ring-2', 'ring-cyan-500', 'bg-gray-800');
+                                    c.classList.add('border-gray-600', 'bg-gray-700');
+                                    // Sembunyikan icon
+                                    c.querySelector('.check-icon').classList.add('hidden');
+                                });
+
+                                // 2. Set style kartu ini (Selected)
+                                this.classList.remove('border-gray-600', 'bg-gray-700');
+                                this.classList.add('border-cyan-500', 'ring-2', 'ring-cyan-500', 'bg-gray-800');
+                                // Tampilkan icon
+                                this.querySelector('.check-icon').classList.remove('hidden');
+
+                                // 3. Simpan nilai
                                 schedInput.value = sch.schedule_id;
                             });
 
@@ -310,16 +288,20 @@
                         });
                     })
                     .catch(error => {
-                        loadingText.style.display = 'none';
-                        schedContainer.innerHTML = '<p style="color:red">Gagal memuat jadwal.</p>';
+                        loadingText.classList.add('hidden');
+                        schedContainer.innerHTML = '<p class="col-span-full text-red-400 text-sm text-center">Gagal memuat jadwal.</p>';
                     });
             }
         });
 
         function resetSchedule() {
-            schedContainer.innerHTML = '<p style="color:#aaa; font-size:14px; grid-column: 1/-1;">Silakan pilih dokter untuk melihat jadwal.</p>';
+            schedContainer.innerHTML = `
+                <div class="col-span-full text-center py-8 border-2 border-dashed border-gray-700 rounded-xl text-gray-500">
+                    <i class="far fa-calendar-times text-2xl mb-2"></i>
+                    <p class="text-sm">Silakan pilih dokter untuk melihat jadwal tersedia.</p>
+                </div>`;
             schedInput.value = '';
-            loadingText.style.display = 'none';
+            loadingText.classList.add('hidden');
         }
     </script>
 

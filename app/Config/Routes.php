@@ -50,9 +50,9 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->get('users/delete/(:num)', 'Admin\Users::delete/$1');
     $routes->get('users', 'Admin\Users::index');
 
-    $routes->get('jadwal', 'Admin\Jadwal::index');                 
-    $routes->get('jadwal/create', 'Admin\Jadwal::create');         
-    $routes->post('jadwal/store', 'Admin\Jadwal::store');          
+    $routes->get('jadwal', 'Admin\Jadwal::index');
+    $routes->get('jadwal/create', 'Admin\Jadwal::create');
+    $routes->post('jadwal/store', 'Admin\Jadwal::store');
     $routes->delete('jadwal/delete/(:num)', 'Admin\Jadwal::delete/$1');
 });
 
@@ -83,12 +83,18 @@ $routes->group('pasien', ['filter' => 'auth'], function ($routes) {
     $routes->post('booking/store', 'Pasien\Pasien::store');
     $routes->get('riwayat', 'Pasien\Pasien::riwayat');
     $routes->get('antrian', 'Pasien\Pasien::antrian');
+    $routes->get('dashboard', 'Pasien\Pasien::dashboard');
+    $routes->get('pasien/dashboard', '\App\Controllers\Pasien::index');
 });
 
 
 $routes->get('register', 'Pasien\Register::index');
 $routes->post('pasien/register/process', 'Pasien\Register::process');
 
+$routes->group('appointment', function ($routes) {
+    $routes->get('getDoctorsByDept/(:num)', 'Pasien::getDoctorsByDept/$1');
+    $routes->get('getSchedulesByDoctor/(:num)', 'Pasien::getSchedulesByDoctor/$1');
+});
 
 $routes->group('pendaftaran', function ($routes) {
     $routes->get('/', 'Pendaftaran\Pendaftaran::index');

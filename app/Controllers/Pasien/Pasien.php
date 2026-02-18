@@ -31,17 +31,27 @@ class Pasien extends Controller
 
         return $patient ? $patient->patient_id : null;
     }
-
-    /* ===============================
-     * 1. DASHBOARD PASIEN
-     * =============================== */
-    public function index()
+    public function dashboard()
     {
         if (!session()->get('user_id')) {
             return redirect()->to('/login');
         }
 
         return view('pasien/dashboard');
+    }
+    
+    /* ===============================
+     * 1. DASHBOARD PASIEN
+     * =============================== */
+    public function index()
+    {
+        // Cek apakah user sudah login
+        if (!session()->get('user_id')) {
+            return redirect()->to('/');
+        }
+
+        // Memanggil file app/Views/Pasien/dashboard.php
+        return view('Pasien/dashboard');
     }
 
     /* ===============================
