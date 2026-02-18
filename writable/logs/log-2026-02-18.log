@@ -745,3 +745,345 @@ DEBUG - 2026-02-18 08:41:50 --> Session: Class initialized using 'CodeIgniter\Se
 DEBUG - 2026-02-18 08:42:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-02-18 08:42:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2026-02-18 08:42:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:52:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:52:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:52:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:52:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-02-18 08:52:36 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'rs', 3306, '', 0)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#12 {main}
+CRITICAL - 2026-02-18 08:52:36 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+[Method: GET, Route: pasien/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `patients`
+WHERE `user_id` = :user_id:', [...], false)
+ 3 APPPATH\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+DEBUG - 2026-02-18 08:52:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-02-18 08:52:41 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'rs', 3306, '', 0)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#12 {main}
+CRITICAL - 2026-02-18 08:52:41 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+[Method: GET, Route: pasien/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `patients`
+WHERE `user_id` = :user_id:', [...], false)
+ 3 APPPATH\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+DEBUG - 2026-02-18 08:52:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-02-18 08:52:45 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'rs', 3306, '', 0)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#12 {main}
+CRITICAL - 2026-02-18 08:52:45 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+[Method: GET, Route: pasien/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `patients`
+WHERE `user_id` = :user_id:', [...], false)
+ 3 APPPATH\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+DEBUG - 2026-02-18 08:52:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2026-02-18 08:52:50 --> Error connecting to the database: mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:201
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php(201): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'rs', 3306, '', 0)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#13 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:246
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(419): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#12 {main}
+CRITICAL - 2026-02-18 08:52:50 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [MySQLi]: No connection could be made because the target machine actively refused it
+[Method: GET, Route: pasien/booking]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `patients`
+WHERE `user_id` = :user_id:', [...], false)
+ 3 APPPATH\Controllers\Pasien\Pasien.php(29): CodeIgniter\Database\BaseBuilder->get()
+ 4 APPPATH\Controllers\Pasien\Pasien.php(62): App\Controllers\Pasien\Pasien->getPatientId()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pasien\Pasien->booking()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pasien\Pasien))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+ERROR - 2026-02-18 08:52:56 --> mysqli_sql_exception: Unknown column 'appointments.appointment_date' in 'field list' in C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `appoint...', 0)
+#1 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `appoint...')
+#2 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `appoint...')
+#3 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `appoint...', Array, false)
+#4 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\app\Controllers\Pendaftaran\Pendaftaran.php(130): CodeIgniter\BaseModel->findAll()
+#7 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(933): App\Controllers\Pendaftaran\Pendaftaran->pasien()
+#8 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pendaftaran\Pendaftaran))
+#9 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 C:\xampp\htdocs\UASSS\Manajemen_Rumah-Sakit\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#14 {main}
+CRITICAL - 2026-02-18 08:52:56 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'appointments.appointment_date' in 'field list'
+[Method: GET, Route: pendaftaran/pasien]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC', [], false)
+ 2 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\Pendaftaran\Pendaftaran.php(130): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pendaftaran\Pendaftaran->pasien()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pendaftaran\Pendaftaran))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+CRITICAL - 2026-02-18 08:52:56 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'appointments.appointment_date' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC', [], false)
+ 4 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 6 APPPATH\Controllers\Pendaftaran\Pendaftaran.php(130): CodeIgniter\BaseModel->findAll()
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pendaftaran\Pendaftaran->pasien()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pendaftaran\Pendaftaran))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+CRITICAL - 2026-02-18 08:52:56 --> [Caused by] mysqli_sql_exception: Unknown column 'appointments.appointment_date' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT `appointments`.`appointment_id`, `appointments`.`status`, `appointments`.`appointment_date`, `appointments`.`queue_number` AS `booking_queue`, `users`.`full_name` AS `patient_name`, `doctor_users`.`full_name` AS `doctor_name`, `departments`.`name` AS `department_name`, `doctor_schedules`.`day`, `doctor_schedules`.`shift`, `doctor_schedules`.`start_time`, `doctor_schedules`.`end_time`
+FROM `appointments`
+JOIN `patients` ON `patients`.`patient_id` = `appointments`.`patient_id`
+JOIN `users` ON `users`.`user_id` = `patients`.`user_id`
+JOIN `doctor_schedules` ON `doctor_schedules`.`schedule_id` = `appointments`.`schedule_id`
+JOIN `doctors` ON `doctors`.`doctor_id` = `doctor_schedules`.`doctor_id`
+JOIN `users` as `doctor_users` ON `doctor_users`.`user_id` = `doctors`.`user_id`
+JOIN `departments` ON `departments`.`department_id` = `doctors`.`department_id`
+ORDER BY `appointments`.`appointment_id` DESC', [], false)
+ 5 SYSTEMPATH\Model.php(286): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(677): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Controllers\Pendaftaran\Pendaftaran.php(130): CodeIgniter\BaseModel->findAll()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Pendaftaran\Pendaftaran->pasien()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pendaftaran\Pendaftaran))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\UASSS\\Manajemen_Rumah-Sakit\\public\\index.php')
+DEBUG - 2026-02-18 08:52:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:52:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:53:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:53:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:53:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:53:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:53:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:55:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:55:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:55:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:55:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:55:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2026-02-18 08:55:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
