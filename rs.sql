@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2026 at 09:04 AM
+-- Generation Time: Feb 18, 2026 at 09:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointments` (
   `appointment_id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
+  `schedule_id` int(11) DEFAULT NULL,
   `schedule_date` date NOT NULL,
   `department_id` int(11) NOT NULL,
   `doctor_id` int(11) NOT NULL,
@@ -41,16 +42,15 @@ CREATE TABLE `appointments` (
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`appointment_id`, `patient_id`, `schedule_date`, `department_id`, `doctor_id`, `status`, `created_at`) VALUES
-(3, 2, '2026-02-11', 1, 3, 'completed', '2026-02-10 18:06:32'),
-(4, 2, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 03:53:42'),
-(5, 2, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 04:03:26'),
-(6, 2, '2026-02-11', 1, 3, 'completed', '2026-02-11 04:07:37'),
-(7, 2, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 04:58:41'),
-(8, 2, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 05:04:43'),
-(9, 2, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 05:11:16'),
-(10, 3, '2026-02-11', 1, 3, 'completed', '2026-02-11 05:36:37'),
-(11, 3, '2026-02-11', 2, 6, 'confirmed', '2026-02-11 07:48:28');
+INSERT INTO `appointments` (`appointment_id`, `patient_id`, `schedule_id`, `schedule_date`, `department_id`, `doctor_id`, `status`, `created_at`) VALUES
+(3, 2, NULL, '2026-02-11', 1, 3, 'completed', '2026-02-10 18:06:32'),
+(4, 2, NULL, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 03:53:42'),
+(5, 2, NULL, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 04:03:26'),
+(6, 2, NULL, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 04:07:37'),
+(7, 2, NULL, '2026-02-11', 1, 3, 'confirmed', '2026-02-11 05:06:49'),
+(8, 2, NULL, '2026-02-18', 1, 3, 'waiting', '2026-02-18 05:26:52'),
+(9, 2, NULL, '2026-02-18', 1, 3, 'waiting', '2026-02-18 05:32:19'),
+(10, 2, NULL, '2026-02-18', 1, 3, 'waiting', '2026-02-18 07:28:24');
 
 -- --------------------------------------------------------
 
@@ -98,12 +98,34 @@ CREATE TABLE `doctors` (
 --
 
 INSERT INTO `doctors` (`doctor_id`, `user_id`, `department_id`, `specialization`) VALUES
-(3, 16, 1, 'Pelayanan Kesehatan Umum'),
-(5, 17, 1, 'Pelayanan Kesehatan Umum'),
-(6, 19, 2, 'Pemeriksaan dan perawatan kesehatan gigi dan mulut.'),
-(7, 20, 3, 'Spesialis kesehatan anak (Pediatri), imunisasi, dan tumbuh kembang.'),
-(8, 21, 1, 'Pelayanan Kesehatan Umum'),
-(9, 22, 4, 'Diagnosis dan penanganan penyakit organ dalam (Internis).');
+(3, 16, 1, 'Pelayanan Kesehatan Umum');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `doctor_schedules`
+--
+
+CREATE TABLE `doctor_schedules` (
+  `schedule_id` int(11) NOT NULL,
+  `doctor_id` int(11) DEFAULT NULL,
+  `day` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu') DEFAULT NULL,
+  `shift` enum('Pagi','Siang','Malam') DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `quota` int(11) DEFAULT 20,
+  `status` enum('available','full','leave') DEFAULT 'available',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `doctor_schedules`
+--
+
+INSERT INTO `doctor_schedules` (`schedule_id`, `doctor_id`, `day`, `shift`, `start_time`, `end_time`, `quota`, `status`, `created_at`) VALUES
+(1, 3, 'Selasa', 'Pagi', '04:03:00', '21:02:00', 20, 'available', '2026-02-18 06:52:55'),
+(2, 3, 'Senin', 'Siang', '13:00:00', '17:00:00', 20, 'available', '2026-02-18 07:15:45'),
+(3, 3, 'Rabu', 'Siang', '13:00:00', '17:00:00', 20, 'available', '2026-02-18 07:17:45');
 
 -- --------------------------------------------------------
 
@@ -126,9 +148,7 @@ CREATE TABLE `examinations` (
 --
 
 INSERT INTO `examinations` (`exam_id`, `appointment_id`, `doctor_id`, `complaint`, `diagnosis`, `notes`, `exam_date`) VALUES
-(1, 3, 3, 'Sakit kepala', 'Sakit kepala', 'Istirahat yg cukup', '2026-02-10 23:18:11'),
-(2, 6, 5, 'pusing banget ', 'Sakit kepala', 'istirahat', '2026-02-11 05:30:51'),
-(3, 10, 5, 'sakit perut', 'asm lambung', 'kurangi kopi', '2026-02-11 05:38:21');
+(1, 3, 3, 'Sakit kepala', 'Sakit kepala', 'Istirahat yg cukup', '2026-02-10 23:18:11');
 
 -- --------------------------------------------------------
 
@@ -148,15 +168,15 @@ CREATE TABLE `medicines` (
 --
 
 INSERT INTO `medicines` (`medicine_id`, `name`, `stock`, `price`) VALUES
-(1, 'Paracetamol 500mg', 497, 5000.00),
-(2, 'Amoxicillin 500mg', 197, 12000.00),
+(1, 'Paracetamol 500mg', 498, 5000.00),
+(2, 'Amoxicillin 500mg', 198, 12000.00),
 (3, 'Ibuprofen 400mg', 150, 8000.00),
 (4, 'Cetirizine 10mg', 300, 15000.00),
 (5, 'Omeprazole 20mg', 100, 25000.00),
 (6, 'Metformin 500mg', 400, 10000.00),
 (7, 'Amlodipine 5mg', 250, 12000.00),
 (8, 'Simvastatin 10mg', 200, 18000.00),
-(9, 'Antasida Doen', 999, 3000.00),
+(9, 'Antasida Doen', 1000, 3000.00),
 (10, 'Salbutamol 2mg', 100, 7000.00);
 
 -- --------------------------------------------------------
@@ -178,9 +198,7 @@ CREATE TABLE `medicine_pickups` (
 
 INSERT INTO `medicine_pickups` (`pickup_id`, `prescription_id`, `pickup_date`, `picked_by`) VALUES
 (1, 1, '2026-02-11 00:20:14', 4),
-(2, 1, '2026-02-11 00:20:21', 4),
-(3, 2, '2026-02-11 05:39:19', 4),
-(4, 3, '2026-02-11 05:39:20', 4);
+(2, 1, '2026-02-11 00:20:21', 4);
 
 -- --------------------------------------------------------
 
@@ -203,8 +221,7 @@ CREATE TABLE `patients` (
 --
 
 INSERT INTO `patients` (`patient_id`, `user_id`, `nik`, `gender`, `birth_date`, `phone`, `address`) VALUES
-(2, 15, '1234567890123456', 'L', '2007-11-25', '85156467659', 'Jalan Golf, Lingkungan Jl. Citatah Dalam No.03, Ciriung, Cibinong, Bogor Regency, West Java 16918'),
-(3, 18, '3213948297462', 'L', '2005-06-14', '08787472747554', 'tapos-depok');
+(2, 15, '1234567890123456', 'L', '2007-11-25', '85156467659', 'Jalan Golf, Lingkungan Jl. Citatah Dalam No.03, Ciriung, Cibinong, Bogor Regency, West Java 16918');
 
 -- --------------------------------------------------------
 
@@ -226,9 +243,7 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `appointment_id`, `total_amount`, `payment_method`, `payment_status`, `payment_date`) VALUES
-(1, 3, 67000.00, NULL, 'paid', '2026-02-10 23:43:12'),
-(2, 6, 67000.00, NULL, 'paid', '2026-02-11 05:39:00'),
-(3, 10, 53000.00, NULL, 'paid', '2026-02-11 05:39:04');
+(1, 3, 67000.00, NULL, 'paid', '2026-02-10 23:43:12');
 
 -- --------------------------------------------------------
 
@@ -247,9 +262,7 @@ CREATE TABLE `prescriptions` (
 --
 
 INSERT INTO `prescriptions` (`prescription_id`, `exam_id`, `created_at`) VALUES
-(1, 1, '2026-02-10 23:18:11'),
-(2, 2, '2026-02-11 05:30:51'),
-(3, 3, '2026-02-11 05:38:21');
+(1, 1, '2026-02-10 23:18:11');
 
 -- --------------------------------------------------------
 
@@ -272,10 +285,7 @@ CREATE TABLE `prescription_items` (
 
 INSERT INTO `prescription_items` (`item_id`, `prescription_id`, `medicine_id`, `dosage`, `quantity`, `instructions`) VALUES
 (1, 1, 1, '-', 1, '3x1 Hari'),
-(2, 1, 2, '', 1, '3x1 Hari'),
-(3, 2, 1, '-', 1, '3x1 Hari'),
-(4, 2, 2, '', 1, '3x1 Hari'),
-(5, 3, 9, '-', 1, '3x1 Hari');
+(2, 1, 2, '', 1, '3x1 Hari');
 
 -- --------------------------------------------------------
 
@@ -297,15 +307,10 @@ CREATE TABLE `queues` (
 
 INSERT INTO `queues` (`queue_id`, `appointment_id`, `queue_number`, `status`, `call_time`) VALUES
 (1, 3, 1, 'done', NULL),
-(2, 6, 2, 'done', NULL),
+(2, 6, 2, 'waiting', NULL),
 (3, 5, 3, 'waiting', NULL),
 (4, 4, 4, 'waiting', NULL),
-(5, 7, 5, 'waiting', NULL),
-(6, 8, 6, 'waiting', NULL),
-(7, 8, 7, 'waiting', NULL),
-(8, 9, 8, 'waiting', NULL),
-(9, 10, 9, 'done', NULL),
-(10, 11, 10, 'waiting', NULL);
+(5, 7, 5, 'waiting', NULL);
 
 -- --------------------------------------------------------
 
@@ -357,13 +362,7 @@ INSERT INTO `users` (`user_id`, `username`, `password_hash`, `full_name`, `role_
 (5, 'marco', '$2y$10$TzZJlZEQJx0dbkfs8P/heeaR6FsaOTTsmjG4S5ohw0FbOOjVw3pku', 'Sophian Marco Butar Butar', 5, 'active', '2026-02-03 00:55:37'),
 (14, 'ardi', '$2y$10$fp/kg6OMrLrRUhi8c15SheFEyhxhkaVLMiR9VGw8LlOUioY4GK/xC', 'Ardianto Randa', 6, 'active', '2026-02-10 12:55:22'),
 (15, 'nadia', '$2y$10$7Ymjhh236etaZudtd95zluikljZgvqg0ys4vZ3KT2z5uVakiXXhwS', 'Nadia Chairunnisa', 6, 'active', '2026-02-10 15:36:28'),
-(16, 'dhavaa', '$2y$10$kIi2mXgKAfqLePW4JzHkw.pFYgOq1Q4y2lT1qfaMj1J2q11wXtMWW', 'Auliya Dhava Wimaa', 3, 'active', '2026-02-10 16:29:43'),
-(17, 'dhava', '$2y$10$9hmJCpeJBb8NSfw.mTcy5uwBelqZg.EjYH7S5UMl8JsbV9kUGQiti', 'Auliya Dhava Wima', 3, 'active', '2026-02-11 04:56:17'),
-(18, 'ani', '$2y$10$mpMnaMp1zJ39yND0RrRfFuOqXEQ.TLuc8frfK.VFixXVa/8y9aJY2', 'Ani Marfuah Ramadhani', 6, 'active', '2026-02-11 05:35:14'),
-(19, 'gigi', '$2y$10$B2E9FrBdTu/LxZZjgeAznuWGk9CzQcomW1al8RE8beB8fa8zqNjxW', 'Poli Gigi', 3, 'active', '2026-02-11 07:45:19'),
-(20, 'anak', '$2y$10$mV41UAHEIJo/MES9bs2.GO1rUh.UIvXvxNRc8hWZOpWUT5v.//Nom', 'Poli Anak', 3, 'active', '2026-02-11 07:45:44'),
-(21, 'umum', '$2y$10$IFiKcC1De5HNkYmkUF.32eUM4K7dfg1Vg/UnBoaqOAZo3Dn5kEuyS', 'Poli Umum', 3, 'active', '2026-02-11 07:46:07'),
-(22, 'penyakitdalam', '$2y$10$t3J69qLYZmXNYzLJwBBMWOB7kcj5z8pDrs5.VeDlD1vUkEiqVKDtq', 'Poli Penyakit Dalam', 3, 'active', '2026-02-11 07:47:08');
+(16, 'dhavaa', '$2y$10$kIi2mXgKAfqLePW4JzHkw.pFYgOq1Q4y2lT1qfaMj1J2q11wXtMWW', 'Auliya Dhava Wimaa', 3, 'active', '2026-02-10 16:29:43');
 
 -- --------------------------------------------------------
 
@@ -389,7 +388,8 @@ ALTER TABLE `appointments`
   ADD PRIMARY KEY (`appointment_id`),
   ADD KEY `patient_id` (`patient_id`),
   ADD KEY `department_id` (`department_id`),
-  ADD KEY `doctor_id` (`doctor_id`);
+  ADD KEY `doctor_id` (`doctor_id`),
+  ADD KEY `fk_appointment_schedule` (`schedule_id`);
 
 --
 -- Indexes for table `departments`
@@ -404,6 +404,13 @@ ALTER TABLE `doctors`
   ADD PRIMARY KEY (`doctor_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  ADD PRIMARY KEY (`schedule_id`),
+  ADD KEY `doctor_id` (`doctor_id`);
 
 --
 -- Indexes for table `examinations`
@@ -492,7 +499,7 @@ ALTER TABLE `user_access_logs`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -504,13 +511,19 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `doctor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `doctor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `examinations`
 --
 ALTER TABLE `examinations`
-  MODIFY `exam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `exam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `medicines`
@@ -522,37 +535,37 @@ ALTER TABLE `medicines`
 -- AUTO_INCREMENT for table `medicine_pickups`
 --
 ALTER TABLE `medicine_pickups`
-  MODIFY `pickup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `pickup_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `prescriptions`
 --
 ALTER TABLE `prescriptions`
-  MODIFY `prescription_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `prescription_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `prescription_items`
 --
 ALTER TABLE `prescription_items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `queue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -564,7 +577,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user_access_logs`
@@ -582,7 +595,8 @@ ALTER TABLE `user_access_logs`
 ALTER TABLE `appointments`
   ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`),
   ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`),
-  ADD CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`);
+  ADD CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`),
+  ADD CONSTRAINT `fk_appointment_schedule` FOREIGN KEY (`schedule_id`) REFERENCES `doctor_schedules` (`schedule_id`);
 
 --
 -- Constraints for table `doctors`
@@ -590,6 +604,12 @@ ALTER TABLE `appointments`
 ALTER TABLE `doctors`
   ADD CONSTRAINT `doctors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `doctors_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `departments` (`department_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `doctor_schedules`
+--
+ALTER TABLE `doctor_schedules`
+  ADD CONSTRAINT `doctor_schedules_ibfk_1` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `examinations`
