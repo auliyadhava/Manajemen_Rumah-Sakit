@@ -77,14 +77,18 @@ $routes->group('dokter', ['filter' => 'auth'], function ($routes) {
     $routes->post('submitExamination', 'Doctor\DoctorController::submitExamination');
 });
 
+$routes->group('appointment', function ($routes) {
+    $routes->get('getDoctorsByDept/(:num)', 'Pasien\Pasien::getDoctorsByDept/$1');
+    $routes->get('getSchedulesByDoctor/(:num)', 'Pasien\Pasien::getSchedulesByDoctor/$1');
+});
 $routes->group('pasien', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Pasien\Pasien::index');
+    $routes->get('dashboard', 'Pasien\Pasien::dashboard');
     $routes->get('booking', 'Pasien\Pasien::booking');
     $routes->post('booking/store', 'Pasien\Pasien::store');
     $routes->get('riwayat', 'Pasien\Pasien::riwayat');
     $routes->get('antrian', 'Pasien\Pasien::antrian');
-    $routes->get('dashboard', 'Pasien\Pasien::dashboard');
-    $routes->get('pasien/dashboard', '\App\Controllers\Pasien::index');
+    $routes->get('detail_pemeriksaan/(:num)', 'Pasien\Pasien::detail_pemeriksaan/$1');
 });
 
 
@@ -104,5 +108,3 @@ $routes->group('pendaftaran', function ($routes) {
 });
 
 $routes->get('reset-test', 'Auth::resetPasswordTest');
-$routes->get('appointment/getDoctorsByDept/(:num)', 'Pendaftaran\AppointmentController::getDoctorsByDept/$1');
-$routes->get('appointment/getSchedulesByDoctor/(:num)', 'Pendaftaran\AppointmentController::getSchedulesByDoctor/$1');

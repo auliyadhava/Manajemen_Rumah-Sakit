@@ -2,9 +2,9 @@
 
 namespace App\Controllers\Pasien;
 
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 
-class Pasien extends Controller
+class Pasien extends BaseController
 {
     protected $db;
 
@@ -31,27 +31,23 @@ class Pasien extends Controller
 
         return $patient ? $patient->patient_id : null;
     }
-    public function dashboard()
-    {
-        if (!session()->get('user_id')) {
-            return redirect()->to('/login');
-        }
 
-        return view('pasien/dashboard');
-    }
-    
     /* ===============================
      * 1. DASHBOARD PASIEN
      * =============================== */
     public function index()
     {
-        // Cek apakah user sudah login
         if (!session()->get('user_id')) {
             return redirect()->to('/');
         }
 
-        // Memanggil file app/Views/Pasien/dashboard.php
         return view('Pasien/dashboard');
+    }
+
+    // Alias untuk index jika di routes dipanggil /dashboard
+    public function dashboard()
+    {
+        return $this->index();
     }
 
     /* ===============================
@@ -62,7 +58,7 @@ class Pasien extends Controller
         $patientId = $this->getPatientId();
 
         if (!$patientId) {
-            return redirect()->to('/login');
+            return redirect()->to('/');
         }
 
         $data['departments'] = $this->db
@@ -70,43 +66,64 @@ class Pasien extends Controller
             ->get()
             ->getResult();
 
-        return view('pasien/booking', $data);
+        return view('Pasien/booking', $data);
     }
 
     /* ===============================
-     * 2b. SIMPAN BOOKING
+     * 2b. AJAX: AMBIL DOKTER & JADWAL
+     * =============================== */
+
+    // Dipanggil saat milih Poliklinik
+    public function getDoctorsByDept($deptId)
+    {
+        $doctors = $this->db->table('doctors')
+            ->select('doctors.doctor_id, users.full_name') // Ambil full_name dari tabel users
+            ->join('users', 'users.user_id = doctors.user_id') // Gabungkan tabel doctors dan users
+            ->where('doctors.department_id', $deptId)
+            ->get()
+            ->getResult();
+
+        return $this->response->setJSON($doctors);
+    }
+
+    // Dipanggil saat milih Dokter
+    public function getSchedulesByDoctor($doctorId)
+    {
+        // Pastikan nama tabel kamu 'doctor_schedules'
+        $schedules = $this->db->table('doctor_schedules')
+            ->where('doctor_id', $doctorId)
+            ->get()
+            ->getResult();
+
+        return $this->response->setJSON($schedules);
+    }
+
+    /* ===============================
+     * 2c. SIMPAN BOOKING
      * =============================== */
     public function store()
     {
         $patientId = $this->getPatientId();
 
         if (!$patientId) {
-            return redirect()->to('/login');
-        }
-
-        $db = \Config\Database::connect();
-
-        $departmentId = $this->request->getPost('department_id');
-
-        // 🔍 Ambil 1 dokter berdasarkan poli
-        $doctor = $db->table('doctors')
-            ->where('department_id', $departmentId)
-            ->get()
-            ->getRow();
-
-        if (!$doctor) {
-            return redirect()->back()->with('error', 'Dokter untuk poli ini belum tersedia.');
+            return redirect()->to('/');
         }
 
         $data = [
             'patient_id'    => $patientId,
             'schedule_date' => $this->request->getPost('schedule_date'),
-            'department_id' => $departmentId,
-            'doctor_id'     => $doctor->doctor_id,
+            'department_id' => $this->request->getPost('department_id'),
+            'doctor_id'     => $this->request->getPost('doctor_id'),
+            'schedule_id'   => $this->request->getPost('schedule_id'),
             'status'        => 'waiting'
         ];
 
-        $db->table('appointments')->insert($data);
+        // Validasi simpel
+        if (empty($data['doctor_id']) || empty($data['schedule_id'])) {
+            return redirect()->back()->with('error', 'Mohon pilih dokter dan jadwal terlebih dahulu.');
+        }
+
+        $this->db->table('appointments')->insert($data);
 
         return redirect()->to('/pasien/riwayat')->with('success', 'Booking berhasil dibuat!');
     }
@@ -120,7 +137,7 @@ class Pasien extends Controller
         $patientId = $this->getPatientId();
 
         if (!$patientId) {
-            return redirect()->to('/login');
+            return redirect()->to('/');
         }
 
         $data['appointments'] = $this->db->query("
@@ -135,7 +152,7 @@ class Pasien extends Controller
             ORDER BY a.schedule_date DESC
         ", [$patientId])->getResult();
 
-        return view('pasien/riwayat', $data);
+        return view('Pasien/riwayat', $data);
     }
 
     /* ===============================
@@ -146,7 +163,7 @@ class Pasien extends Controller
         $patientId = $this->getPatientId();
 
         if (!$patientId) {
-            return redirect()->to('/login');
+            return redirect()->to('/');
         }
 
         $data['queues'] = $this->db->query("
@@ -154,7 +171,8 @@ class Pasien extends Controller
                 q.queue_number,
                 q.status,
                 a.schedule_date,
-                d.name AS department
+                d.name AS department,
+                a.appointment_id
             FROM queues q
             JOIN appointments a ON a.appointment_id = q.appointment_id
             JOIN departments d ON d.department_id = a.department_id
@@ -163,7 +181,7 @@ class Pasien extends Controller
             ORDER BY q.queue_id DESC
         ", [$patientId])->getResult();
 
-        return view('pasien/antrian', $data);
+        return view('Pasien/antrian', $data);
     }
 
     /* ===============================
@@ -174,7 +192,7 @@ class Pasien extends Controller
         $patientId = $this->getPatientId();
 
         if (!$patientId) {
-            return redirect()->to('/login');
+            return redirect()->to('/');
         }
 
         // pemeriksaan
@@ -188,7 +206,7 @@ class Pasien extends Controller
         if ($data['pemeriksaan']) {
             $data['resep'] = $this->db->query("
                 SELECT 
-                    m.name AS nama_obat,
+                    m.name,
                     pi.dosage,
                     pi.quantity,
                     pi.instructions
@@ -208,6 +226,6 @@ class Pasien extends Controller
             ->get()
             ->getRow();
 
-        return view('pasien/detail_pemeriksaan', $data);
+        return view('Pasien/detail_pemeriksaan', $data);
     }
 }
