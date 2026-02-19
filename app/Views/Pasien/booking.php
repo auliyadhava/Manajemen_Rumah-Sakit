@@ -180,11 +180,28 @@
     <script>
         const BASE_URL = "<?= base_url() ?>";
 
+        const dateInput = document.getElementById('appointment_date');
         const deptSelect = document.getElementById('department');
         const docSelect = document.getElementById('doctor');
         const schedContainer = document.getElementById('schedule_container');
         const schedInput = document.getElementById('schedule_id');
         const loadingText = document.getElementById('schedule_loading');
+
+        // Fungsi Helper untuk mendapatkan nama hari (Bahasa Indonesia) dari input tipe date
+        function getDayName(dateString) {
+            if (!dateString) return null;
+            const date = new Date(dateString);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            return days[date.getDay()];
+        }
+
+        // Reset jadwal jika tanggal diubah
+        dateInput.addEventListener('change', function() {
+            if (docSelect.value) {
+                // Trigger ulang pemanggilan jadwal agar filter hari teraplikasi
+                docSelect.dispatchEvent(new Event('change'));
+            }
+        });
 
         // === 1. Saat Poli Dipilih ===
         deptSelect.addEventListener('change', function() {
@@ -203,7 +220,9 @@
                     .then(data => {
                         let options = '<option value="">-- Pilih Dokter --</option>';
                         data.forEach(doc => {
-                            options += `<option value="${doc.doctor_id}">${doc.full_name}</option>`;
+                            // Sesuaikan jika field nama di database adalah 'name' bukan 'full_name'
+                            let docName = doc.full_name || doc.name;
+                            options += `<option value="${doc.doctor_id}">${docName}</option>`;
                         });
                         docSelect.innerHTML = options;
                         docSelect.disabled = false;
@@ -222,7 +241,18 @@
         // === 2. Saat Dokter Dipilih ===
         docSelect.addEventListener('change', function() {
             const docId = this.value;
+            const selectedDate = dateInput.value;
+            const selectedDay = getDayName(selectedDate);
+
             resetSchedule();
+
+            if (!selectedDate) {
+                schedContainer.innerHTML = `
+                    <div class="col-span-full text-center py-4 bg-amber-900/20 border border-amber-500/30 rounded-lg text-amber-400 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-1"></i> Silakan isi Tanggal Rencana Kunjungan terlebih dahulu.
+                    </div>`;
+                return;
+            }
 
             if (docId) {
                 loadingText.classList.remove('hidden');
@@ -241,51 +271,76 @@
                             return;
                         }
 
+                        let matchFound = false;
+
                         // Render Kartu Jadwal
                         data.forEach(sch => {
                             let start = sch.start_time.substring(0, 5);
                             let end = sch.end_time.substring(0, 5);
 
-                            // Buat Element Kartu dengan Tailwind classes
+                            // Cek apakah hari jadwal cocok dengan hari tanggal dipilih
+                            // (Mengabaikan huruf besar/kecil)
+                            let isAvailable = sch.day.toLowerCase() === selectedDay.toLowerCase();
+
+                            if (isAvailable) matchFound = true;
+
+                            // Tentukan class berdasarkan ketersediaan (available = bisa diklik, unavailable = disabled)
+                            let baseClasses = 'p-3 rounded-xl border text-center relative transition-all ';
+                            if (isAvailable) {
+                                baseClasses += 'schedule-card cursor-pointer border-gray-600 bg-gray-700 hover:border-cyan-400 hover:bg-gray-600 group';
+                            } else {
+                                baseClasses += 'border-gray-700 bg-gray-800 opacity-50 cursor-not-allowed';
+                            }
+
                             const card = document.createElement('div');
-                            // Base classes
-                            card.className = 'schedule-card cursor-pointer p-3 rounded-xl border border-gray-600 bg-gray-700 hover:border-cyan-400 hover:bg-gray-600 transition-all text-center group relative';
+                            card.className = baseClasses;
 
                             card.innerHTML = `
-                            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 group-hover:text-cyan-300 transition-colors">${sch.day}</div>
-                            <div class="text-lg font-bold text-white mb-1">${sch.shift}</div>
-                            <div class="text-xs text-gray-400 bg-gray-800/50 py-1 px-2 rounded-lg inline-block group-hover:bg-gray-900/50">
+                            <div class="text-xs font-bold uppercase tracking-wider mb-1 ${isAvailable ? 'text-gray-400 group-hover:text-cyan-300' : 'text-gray-600'}">${sch.day}</div>
+                            <div class="text-lg font-bold mb-1 ${isAvailable ? 'text-white' : 'text-gray-500'}">${sch.shift}</div>
+                            <div class="text-xs py-1 px-2 rounded-lg inline-block ${isAvailable ? 'text-gray-400 bg-gray-800/50 group-hover:bg-gray-900/50' : 'text-gray-600 bg-gray-900/50'}">
                                 <i class="far fa-clock mr-1"></i> ${start}-${end}
                             </div>
                             
+                            ${!isAvailable ? `
+                                <div class="absolute inset-0 flex items-center justify-center bg-gray-900/40 rounded-xl backdrop-blur-[1px]">
+                                    <span class="text-[10px] font-bold text-red-400 bg-gray-900 px-2 py-1 rounded-full border border-red-900/50">Beda Hari</span>
+                                </div>
+                            ` : ''}
+
                             <div class="check-icon hidden absolute top-2 right-2 text-cyan-400">
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         `;
 
-                            // Event Klik
-                            card.addEventListener('click', function() {
-                                // 1. Reset semua kartu lain
-                                document.querySelectorAll('.schedule-card').forEach(c => {
-                                    // Hapus style 'selected'
-                                    c.classList.remove('border-cyan-500', 'ring-2', 'ring-cyan-500', 'bg-gray-800');
-                                    c.classList.add('border-gray-600', 'bg-gray-700');
-                                    // Sembunyikan icon
-                                    c.querySelector('.check-icon').classList.add('hidden');
+                            // Event Klik HANYA jika jadwal tersedia di hari tersebut
+                            if (isAvailable) {
+                                card.addEventListener('click', function() {
+                                    document.querySelectorAll('.schedule-card').forEach(c => {
+                                        c.classList.remove('border-cyan-500', 'ring-2', 'ring-cyan-500', 'bg-gray-800');
+                                        c.classList.add('border-gray-600', 'bg-gray-700');
+                                        c.querySelector('.check-icon').classList.add('hidden');
+                                    });
+
+                                    this.classList.remove('border-gray-600', 'bg-gray-700');
+                                    this.classList.add('border-cyan-500', 'ring-2', 'ring-cyan-500', 'bg-gray-800');
+                                    this.querySelector('.check-icon').classList.remove('hidden');
+
+                                    schedInput.value = sch.schedule_id;
                                 });
-
-                                // 2. Set style kartu ini (Selected)
-                                this.classList.remove('border-gray-600', 'bg-gray-700');
-                                this.classList.add('border-cyan-500', 'ring-2', 'ring-cyan-500', 'bg-gray-800');
-                                // Tampilkan icon
-                                this.querySelector('.check-icon').classList.remove('hidden');
-
-                                // 3. Simpan nilai
-                                schedInput.value = sch.schedule_id;
-                            });
+                            }
 
                             schedContainer.appendChild(card);
                         });
+
+                        // Tambahkan pesan peringatan jika dokter ada jadwal tapi tidak di hari yang dipilih
+                        if (!matchFound) {
+                            const warningMsg = document.createElement('div');
+                            warningMsg.className = 'col-span-full mt-2 text-center text-xs text-red-400 bg-red-900/10 p-2 rounded border border-red-500/20';
+                            warningMsg.innerHTML = `<i class="fas fa-info-circle mr-1"></i> Dokter tidak praktek pada hari ${selectedDay}. Silakan ganti tanggal atau pilih dokter lain.`;
+                            schedContainer.appendChild(warningMsg);
+                        }
+
                     })
                     .catch(error => {
                         loadingText.classList.add('hidden');

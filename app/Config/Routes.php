@@ -59,7 +59,7 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 
 $routes->group('apoteker', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Apoteker\Apoteker::index');
-    $routes->get('detail/(:num)', 'Apoteker\Apoteker::detail/$1');
+    $routes->get('detail/(:num)', 'Apoteker\Apoteker::getDetail/$1');
     $routes->post('pickup/(:num)', 'Apoteker\Apoteker::pickup/$1');
 });
 

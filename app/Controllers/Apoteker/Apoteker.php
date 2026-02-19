@@ -2,12 +2,12 @@
 
 namespace App\Controllers\Apoteker;
 
+use App\Controllers\BaseController;
 use App\Models\Pharmacy\PrescriptionModel;
 use App\Models\Pharmacy\PrescriptionItemModel;
 use App\Models\Pharmacy\MedicineModel;
 use App\Models\Pharmacy\MedicinePickupModel;
 use App\Models\Cashier\PaymentModel;
-use App\Controllers\BaseController;
 
 class Apoteker extends BaseController
 {
@@ -20,14 +20,14 @@ class Apoteker extends BaseController
     public function __construct()
     {
         $this->prescription = new PrescriptionModel();
-        $this->item = new PrescriptionItemModel();
-        $this->medicine = new MedicineModel();
-        $this->pickup = new MedicinePickupModel();
-        $this->payment = new PaymentModel();
+        $this->item         = new PrescriptionItemModel();
+        $this->medicine     = new MedicineModel();
+        $this->pickup       = new MedicinePickupModel();
+        $this->payment      = new PaymentModel();
     }
 
     /**
-     * daftar resep yang sudah dibayar
+     * Daftar resep yang sudah dibayar tapi belum diambil
      */
     public function index()
     {
@@ -35,23 +35,20 @@ class Apoteker extends BaseController
 
         $builder = $db->table('prescriptions');
         $builder->select('
-        prescriptions.prescription_id, 
-        users.full_name as patient_name,
-        medicine_pickups.pickup_id
-    '); 
+            prescriptions.prescription_id,
+            users.full_name as patient_name,
+            examinations.diagnosis,
+            payments.payment_status,
+            medicine_pickups.pickup_id
+        ');
         $builder->join('examinations', 'examinations.exam_id = prescriptions.exam_id');
         $builder->join('appointments', 'appointments.appointment_id = examinations.appointment_id');
         $builder->join('patients', 'patients.patient_id = appointments.patient_id');
         $builder->join('users', 'users.user_id = patients.user_id');
         $builder->join('payments', 'payments.appointment_id = appointments.appointment_id');
-
-        // Join ke tabel pengambilan
         $builder->join('medicine_pickups', 'medicine_pickups.prescription_id = prescriptions.prescription_id', 'left');
 
-        // Filter 1: Harus sudah dibayar
         $builder->where('payments.payment_status', 'paid');
-
-        // Filter 2: HANYA yang BELUM ada di tabel medicine_pickups
         $builder->where('medicine_pickups.pickup_id IS NULL');
 
         $resep = $builder->get()->getResultArray();
@@ -63,33 +60,32 @@ class Apoteker extends BaseController
     }
 
     /**
-     * detail resep
+     * Detail resep → JSON
      */
     public function detail($id)
     {
-        $data['items'] = $this->item
+        $items = $this->item
             ->select('prescription_items.*, medicines.name')
             ->join('medicines', 'medicines.medicine_id = prescription_items.medicine_id')
             ->where('prescription_id', $id)
             ->findAll();
 
-        $data['prescription_id'] = $id;
-
-        return view('apoteker/detail', $data);
+        return $this->response->setJSON($items);
     }
 
     /**
-     * konfirmasi pengambilan obat
+     * Konfirmasi pengambilan obat
      */
     public function pickup($id)
     {
         $db = \Config\Database::connect();
-        $db->transStart(); // Mulai proteksi
+        $db->transStart();
 
         $items = $this->item->where('prescription_id', $id)->findAll();
 
         foreach ($items as $item) {
-            $this->medicine->set('stock', 'stock - ' . $item['quantity'], false)
+            $this->medicine
+                ->set('stock', 'stock - ' . $item['quantity'], false)
                 ->where('medicine_id', $item['medicine_id'])
                 ->update();
         }
@@ -100,7 +96,7 @@ class Apoteker extends BaseController
             'picked_by'       => session()->get('user_id')
         ]);
 
-        $db->transComplete(); // Selesaikan
+        $db->transComplete();
 
         if ($db->transStatus() === false) {
             return redirect()->back()->with('error', 'Gagal memproses pengambilan obat.');
